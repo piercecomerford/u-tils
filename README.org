@@ -1,7 +1,7 @@
 #+TITLE:u-tils
 
-A collection of utilities for aggregating relevant data from ONETEP calculations in order to perform the linear-response method for calculating the Hubbard U parameter as prescribed in Glenn Moynihan's paper[fn:1].
+A collection of utilities for aggregating relevant data from ONETEP calculations in order to perform the linear-response method for calculating the Hubbard U parameter as prescribed in [1].
 
-* Footnotes
+* References
 
-[fn:1] Moynihan, Glenn, Gilberto Teobaldi, and David D. O'Regan. "A self-consistent ground-state formulation of the first-principles Hubbard U parameter validated on one-electron self-interaction error." /arXiv preprint arXiv:1704.08076/ (2017).
+[1] Moynihan, Glenn, Gilberto Teobaldi, and David D. O'Regan. "A self-consistent ground-state formulation of the first-principles Hubbard U parameter validated on one-electron self-interaction error." /arXiv preprint arXiv:1704.08076/ (2017).
