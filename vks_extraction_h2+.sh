@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Takes the relevant information from a onetep output file and sticks it into Python arrays to be used with variousU.py
+# Heavily adapted from code that Andrew Burgess wrote. Actually only basically a bug-fix of that + exportation to Python arrays instead of Mathematica ones.
 
 U_step=$(pwd | grep -o "\weV" | tail -1)
 
