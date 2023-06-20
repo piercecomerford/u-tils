@@ -182,13 +182,14 @@ _E = np.array([
 # Find discrete values of f_Hxc as the slope of v(n)
 _f = []
 for i in range(len(_U_in)):
-    f_Hxc = sp.stats.linregress(occs[i],pots[i])
-    f_Hxc = f_Hxc.slope
+    reg = sp.stats.linregress(occs[i],pots[i])
+    f_Hxc = reg.slope
     _f.append(f_Hxc)
 
 # Define f_Hxc as the linear regression of same
 def f_Hxc(x):
     reg = sp.stats.linregress(_U_in,_f)
+    print((2-reg.intercept)/(2*reg.slope))
     return (reg.slope * x) + reg.intercept
 
 def E_DFTU(x):
@@ -196,9 +197,11 @@ def E_DFTU(x):
     return (reg.slope * x) + reg.intercept
 
 def L(y):
-    return E_DFTU(y) + y * (f_Hxc(y) - y)
+    #return E_DFTU(y) + y * (2*f_Hxc(y) - y)
+    #return  y * (2*f_Hxc(y) - y)
+    return y*(f_Hxc(y) - y)
 
-U_in = np.arange(0,10,0.1)
+U_in = np.arange(1,10,0.01)
 L_U = []
 for u in U_in:
     L_U.append(L(u))
@@ -207,7 +210,8 @@ print(sp.optimize.fmin(lambda x: -L(x), 1))
 print(L(7.10899135266644/2))
 
 plt.plot(U_in,L_U)
-plt.plot(7.10899135266644/2, L(7.10899135266644/2),'ro')
+plt.plot(7.10899135266644/2,L(7.10899135266644/2),'ro',label=r"$\mathcal{L}(U_{\mathrm{in}} = U_{\mathrm{LR}}/2)$")
+plt.legend()
 plt.grid()
 plt.xlabel(r"$U_{\mathrm{in}}$")
 plt.ylabel(r"$\mathcal{L}(U_{\mathrm{in}})$")
