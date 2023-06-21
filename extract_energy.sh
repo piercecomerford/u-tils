@@ -17,8 +17,16 @@ for d in ./*/; do
  TotalEnergy=$(echo ${arr[3]})
  E+=("$TotalEnergy,")
 
+# Grab the DFT+U energy also
+
+ fulline=$(grep -h -n 'DFT+U energy of Hubbard site      1 is' *.out | tail -1)
+ arr=($fulline)
+ DFTUEnergy=$(echo ${arr[7]})
+ EU+=("$DFTUEnergy,")
+
  cd ../..
 done
 
 # Puts it all in a Python array.
-echo "E$U_in=np.array([${E[*]}])"
+echo "_E = np.array([${E[*]}])"
+echo "_E_U = np.array([${EU[*]}])"
