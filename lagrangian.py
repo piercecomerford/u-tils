@@ -169,7 +169,9 @@ occs = np.array([
 _U_in = [1.,2.,3.,4.,5.,6.,6.82,]
 
 # Total energy from unperturbed H2+
-_E = np.array([
+# Conversion factor from Hartree energy to electron-volts
+HtoeV = 27.211407953
+_E = HtoeV * np.array([
     -0.56217770331982,
     -0.55300988370770,
     -0.54384214405801,
@@ -177,6 +179,16 @@ _E = np.array([
     -0.52550690490459,
     -0.51633940552239,
     -0.50882211587537,
+])
+
+_E_U = HtoeV * np.array([
+    0.00458392,
+    0.00916776,
+    0.01375153,
+    0.01833521,
+    0.02291881,
+    0.02750233,
+    0.03126076,
 ])
 
 # Find discrete values of f_Hxc as the slope of v(n)
@@ -189,28 +201,33 @@ for i in range(len(_U_in)):
 # Define f_Hxc as the linear regression of same
 def f_Hxc(x):
     reg = sp.stats.linregress(_U_in,_f)
-    print((2-reg.intercept)/(2*reg.slope))
     return (reg.slope * x) + reg.intercept
 
 def E_DFTU(x):
     reg = sp.stats.linregress(_U_in,_E)
     return (reg.slope * x) + reg.intercept
 
+def E_U(x):
+    reg = sp.stats.linregress(_U_in,_E_U)
+    return (reg.slope * x) + reg.intercept
+
 def L(y):
     #return E_DFTU(y) + y * (2*f_Hxc(y) - y)
     #return  y * (2*f_Hxc(y) - y)
-    return y*(f_Hxc(y) - y)
+    return E_DFTU(y) - E_U(y) + y*(y - f_Hxc(y))
 
 U_in = np.arange(1,10,0.01)
 L_U = []
 for u in U_in:
     L_U.append(L(u))
 
-print(sp.optimize.fmin(lambda x: -L(x), 1))
+#print(sp.optimize.fmin(lambda x: -L(x), 1))
+print(sp.optimize.fmin(L, 1))
 print(L(7.10899135266644/2))
 
 plt.plot(U_in,L_U)
-plt.plot(7.10899135266644/2,L(7.10899135266644/2),'ro',label=r"$\mathcal{L}(U_{\mathrm{in}} = U_{\mathrm{LR}}/2)$")
+plt.plot(7.10899135266644/2,L(7.10899135266644/2),'bo',label=r"$\mathcal{L}(U_{\mathrm{in}} = U_{\mathrm{LR}}/2)$")
+plt.plot(7.10899135266644,L(7.10899135266644),'ro',label=r"$\mathcal{L}(U_{\mathrm{in}} = U_{\mathrm{LR}})$")
 plt.legend()
 plt.grid()
 plt.xlabel(r"$U_{\mathrm{in}}$")

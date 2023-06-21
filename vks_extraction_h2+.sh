@@ -6,8 +6,9 @@
 # Each perturbation is a single subfolder of the main ../U_ineV/ that we're in.
 for d in ./*/; do
  cd $d
-# So that the slurm.out files play nice
- mv slurm* slurm_output
+ # So that the slurm.out files play nice
+ # this spits out lots of errors which i to be honest do not care about and makes it difficult to pipe this script into a .py
+ &>/dev/null mv slurm* slurm_output
 
 # Grab the very final information on DFT+U calculations (ASSUMES CONVERGENCE!!!)
  fulline=$(grep -h -n -A 1 'DFT+U information on Hubbard site      1 of species' *.out | head -2 | tail -1)
