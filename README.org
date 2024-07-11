@@ -1,6 +1,6 @@
 #+TITLE:u-tils
 
-A collection of utilities for aggregating relevant data from ONETEP calculations in order to perform the linear-response method for calculating the Hubbard U parameter as prescribed in [1].
+A collection of utilities for aggregating relevant data from ONETEP calculations in order to perform the linear-response method for calculating the Hubbard U parameter as prescribed in [1]. Created as part of a research internship for the Hamilton Trust programme at Trinity College, Dublin.
 
 * References
 
